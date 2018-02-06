@@ -24,18 +24,17 @@ void Maze::initialize() {
     atexit(SDL_Quit);
     if (SDL_Init(SDL_INIT_VIDEO)) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not initialize video system: %s", SDL_GetError());
-//        exit(EXIT_FAILURE);
-        throw std::bad_exception();
+        throw std::bad_alloc();
     }
     window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 320, 0);
     if (!window) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
-        exit(EXIT_FAILURE);
+        throw std::bad_alloc();
     }
     this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
-        exit(EXIT_FAILURE);
+        throw std::bad_alloc();
     }
 }
 
@@ -52,13 +51,13 @@ void Maze::update_data() {
 }
 
 void Maze::run() {
-    this->initialize();
+    initialize();
 
-    this->done = false;
-    while (!this->done) {
-        this->get_events();
-        this->update_data();
-        this->render();
+    done = false;
+    while (!done) {
+        get_events();
+        update_data();
+        render();
     }
 }
 
@@ -67,7 +66,12 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     if (argc != 2)
         exit(EXIT_FAILURE);
-    Maze maze(argv[1]);
-    maze.run();
-    return 0;
+    try {
+        Maze maze(argv[1]);
+        maze.run();
+        exit(EXIT_SUCCESS);
+    } catch (std::exception& e) {
+        std::cout << e.what() << std::endl;
+        exit(EXIT_FAILURE);
+    }
 }
