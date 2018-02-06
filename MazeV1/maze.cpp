@@ -8,16 +8,13 @@
 
 #include "maze.hpp"
 
-Maze::Maze(std::string file_name) {
-    std::auto_ptr<Map> map (new Map(file_name));
-    std::auto_ptr<Player> player (new Player(map->initial_position.x, map->initial_position.y, map->block_size));
-}
+Maze::Maze(std::string file_name): map (new Map(file_name)), player (new Player(map->initial_position.x, map->initial_position.y, map->block_size)) {}
 
 Maze::~Maze() {
     if (window)
-        SDL_DestroyWindow(this->window);
+        SDL_DestroyWindow(window);
     if (renderer)
-        SDL_DestroyRenderer(this->renderer);
+        SDL_DestroyRenderer(renderer);
 }
 
 void Maze::initialize() {
@@ -31,7 +28,7 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
+    this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
         throw std::bad_alloc();

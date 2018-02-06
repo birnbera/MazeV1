@@ -15,8 +15,8 @@
 #include "player.hpp"
 
 class Maze {
-    Map *map;
-    Player *player;
+    std::auto_ptr<Map> map;
+    std::auto_ptr<Player> player;
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     bool done;
