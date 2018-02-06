@@ -9,16 +9,14 @@
 #include "maze.hpp"
 
 Maze::Maze(std::string file_name) {
-    this->map = new Map(file_name);
-    this->player = new Player(map->initial_position.x, map->initial_position.y, map->block_size);
+    std::auto_ptr<Map> map (new Map(file_name));
+    std::auto_ptr<Player> player (new Player(map->initial_position.x, map->initial_position.y, map->block_size));
 }
 
 Maze::~Maze() {
-    delete this->map;
-    delete this->player;
-    if (this->window)
+    if (window)
         SDL_DestroyWindow(this->window);
-    if (this->renderer)
+    if (renderer)
         SDL_DestroyRenderer(this->renderer);
 }
 
@@ -26,15 +24,16 @@ void Maze::initialize() {
     atexit(SDL_Quit);
     if (SDL_Init(SDL_INIT_VIDEO)) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not initialize video system: %s", SDL_GetError());
-        exit(EXIT_FAILURE);
+//        exit(EXIT_FAILURE);
+        throw std::bad_exception();
     }
-    this->window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 320, 0);
-    if (!this->window) {
+    window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 320, 0);
+    if (!window) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
         exit(EXIT_FAILURE);
     }
     this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
-    if (!this->renderer) {
+    if (!renderer) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
         exit(EXIT_FAILURE);
     }
