@@ -40,7 +40,14 @@ void Maze::get_events() {
 }
 
 void Maze::render() {
-    
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    float scale = (w/map->columns <= h/map->rows) ? w/map->columns : h/map->rows;
+    SDL_Rect viewport;
+    viewport.h = scale * map->rows;
+    viewport.w = scale * map->columns;
+    viewport.x = (w - viewport.w) / 2;
+    viewport.y = (h - viewport.h) / 2;
 }
 
 void Maze::update_data() {
