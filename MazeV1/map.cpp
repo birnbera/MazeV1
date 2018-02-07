@@ -21,13 +21,13 @@ Map::Map(std::string filename) {
             uint32_t i;
             for (i = 0; line[i] != '\n' && line[i] != '\0'; i++) {
                 if (!start_exists && line[i] == '0') {
-                    initial_position.y = rows;
+                    initial_position.y = rows - 1;
                     initial_position.x = i;
                     start_exists = true;
                 }
                 if (line[i] == 'x') {
                     start_exists = true;
-                    initial_position.y = rows;
+                    initial_position.y = rows - 1;
                     initial_position.x = i;
                 }
                 if (!std::isdigit(line[i])) {

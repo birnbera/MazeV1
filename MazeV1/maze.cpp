@@ -50,10 +50,10 @@ void Maze::render() {
     viewport.w = scale * map->columns;
     viewport.x = (w - viewport.w) / 2;
     viewport.y = (h - viewport.h) / 2;
+    SDL_SetRenderDrawColor(renderer, 0x4B, 0x4B, 0x4B, 0x00);
+    SDL_RenderFillRect(renderer, &viewport);
     SDL_RenderSetViewport(renderer, &viewport);
     SDL_RenderSetScale(renderer, scale, scale);
-    SDL_SetRenderDrawColor(renderer, 0x4B, 0x4B, 0x4B, 0x00);
-    SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0x8F, 0x8F, 0x8F, 0x00);
     for (uint32_t i = 0; i < map->rows; i++) {
         for (uint32_t j = 0; j < map->columns; j++) {
@@ -64,6 +64,10 @@ void Maze::render() {
             
         }
     }
+    SDL_RenderSetScale(renderer, scale/10, scale/10);
+    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+    std::cout << player->x << ", " << player->y << std::endl;
+    SDL_RenderDrawPoint(renderer, int(player->x / map->block_size * 10), int(player->y / map->block_size * 10));
     SDL_RenderPresent(renderer);
 }
 

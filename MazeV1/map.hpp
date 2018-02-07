@@ -21,7 +21,7 @@ public:
     std::vector<std::vector<uint8_t>> layout;
     uint32_t rows;
     uint32_t columns;
-    uint32_t block_size;
+    uint32_t block_size = 64;
     struct initial_position {
         uint32_t x;
         uint32_t y;

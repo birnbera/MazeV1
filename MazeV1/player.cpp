@@ -9,8 +9,9 @@
 #include "player.hpp"
 
 Player::Player(uint32_t x, uint32_t y, uint32_t block_size) {
-    x = block_size * x + block_size / 2.0;
-    y = block_size * y + block_size / 2.0;
+    std::cout << x << ", " << y << std::endl;
+    this->x = (block_size * x) + (block_size / 2.0);
+    this->y = (block_size * y) + (block_size / 2.0);
     angle = (rand() % 360) * M_PI / 180.0;
     fov = M_PI / 3.0;
 };
