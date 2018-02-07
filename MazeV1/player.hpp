@@ -22,7 +22,8 @@ public:
     double angle;
     double fov;
     Player(uint32_t x, uint32_t y, uint32_t block_size);
-    void move(int8_t direction);
+    void move_along(int8_t direction);
+    void move_strafe(int8_t direction);
     void update_angle(int8_t direction);
 };
 

@@ -20,6 +20,9 @@ class Maze {
     SDL_Window *window = NULL;
     SDL_Renderer *renderer = NULL;
     bool done;
+    bool rerender;
+    SDL_Rect viewport;
+    float vp_scale;
     void initialize();
     void get_events();
     void update_data();

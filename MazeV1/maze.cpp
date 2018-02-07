@@ -33,27 +33,63 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
+    
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    vp_scale = (float(w)/map->columns <= float(h)/map->rows) ? float(w)/map->columns : float(h)/map->rows;
+    viewport.h = vp_scale * map->rows;
+    viewport.w = vp_scale * map->columns;
+    viewport.x = (w - viewport.w) / 2;
+    viewport.y = (h - viewport.h) / 2;
 }
 
 void Maze::get_events() {
-    
+    SDL_Event e;
+    rerender = false;
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) {
+            done = true;
+            break;
+        }
+        rerender = true;
+        switch (e.key.keysym.sym) {
+            case SDLK_q:
+                done = true;
+                break;
+            case SDLK_UP:
+                player->move_along(1);
+                break;
+            case SDLK_DOWN:
+                player->move_along(-1);
+                break;
+            case SDLK_LEFT:
+                player->update_angle(1);
+                break;
+            case SDLK_RIGHT:
+                player->update_angle(-1);
+                break;
+            case SDLK_a:
+                player->move_strafe(1);
+                break;
+            case SDLK_d:
+                player->move_strafe(-1);
+                break;
+            default:
+                rerender = false;
+                break;
+        }
+    }
 }
 
 void Maze::render() {
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    float scale = (w/map->columns <= h/map->rows) ? w/map->columns : h/map->rows;
-    SDL_Rect viewport;
-    viewport.h = scale * map->rows;
-    viewport.w = scale * map->columns;
-    viewport.x = (w - viewport.w) / 2;
-    viewport.y = (h - viewport.h) / 2;
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
+    SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0x4B, 0x4B, 0x4B, 0x00);
+    SDL_RenderSetViewport(renderer, NULL);
+    SDL_RenderSetScale(renderer, 1, 1);
     SDL_RenderFillRect(renderer, &viewport);
     SDL_RenderSetViewport(renderer, &viewport);
-    SDL_RenderSetScale(renderer, scale, scale);
+    SDL_RenderSetScale(renderer, vp_scale, vp_scale);
     SDL_SetRenderDrawColor(renderer, 0x8F, 0x8F, 0x8F, 0x00);
     for (uint32_t i = 0; i < map->rows; i++) {
         for (uint32_t j = 0; j < map->columns; j++) {
@@ -61,12 +97,11 @@ void Maze::render() {
                 SDL_Rect block = {int(j), int(i), 1, 1};
                 SDL_RenderFillRect(renderer, &block);
             }
-            
         }
     }
-    SDL_RenderSetScale(renderer, scale/10, scale/10);
+    SDL_RenderSetScale(renderer, vp_scale/10, vp_scale/10);
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawPoint(renderer, int(player->x / map->block_size * 10), int(player->y / map->block_size * 10));
+    SDL_RenderDrawPoint(renderer, int(player->x * 10 / map->block_size), int(player->y * 10 / map->block_size));
     SDL_RenderPresent(renderer);
 }
 
@@ -76,27 +111,23 @@ void Maze::update_data() {
 
 void Maze::run() {
     initialize();
-
-    done = false;
-//    while (!done) {
-//        get_events();
-//        update_data();
-//        render();
-//    }
     render();
-    while(true)
-        ;
+    done = false;
+    while (!done) {
+        get_events();
+        update_data();
+        if (rerender)
+            render();
+    }
 }
 
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
     if (argc != 2)
         exit(EXIT_FAILURE);
     try {
         Maze maze(argv[1]);
         maze.run();
-        std::getchar();
         exit(EXIT_SUCCESS);
     } catch (std::exception& e) {
         std::cout << e.what() << std::endl;
