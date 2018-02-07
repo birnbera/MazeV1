@@ -66,7 +66,6 @@ void Maze::render() {
     }
     SDL_RenderSetScale(renderer, scale/10, scale/10);
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    std::cout << player->x << ", " << player->y << std::endl;
     SDL_RenderDrawPoint(renderer, int(player->x / map->block_size * 10), int(player->y / map->block_size * 10));
     SDL_RenderPresent(renderer);
 }
