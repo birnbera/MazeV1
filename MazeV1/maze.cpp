@@ -88,8 +88,22 @@ void Maze::on_key_down(SDL_Keycode sym) {
     }
 }
 
+void Maze::render3d() {
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
+    SDL_RenderClear(renderer);
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    SDL_Rect bottom_half = {0, h/2, w, h/2};
+    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
+    SDL_RenderFillRect(renderer, &bottom_half);
+    
+    SDL_RenderPresent(renderer);
+//     = get_inter_h(&dh);
+//    dv = get_inter_v();
+//    if (dh < dv)
+}
 
-void Maze::render() {
+void Maze::render2d() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 0x4B, 0x4B, 0x4B, 0x00);
@@ -119,13 +133,13 @@ void Maze::update_data() {
 
 void Maze::run() {
     initialize();
-    render();
+    render3d();
     done = false;
     while (!done) {
         get_events();
         update_data();
         if (rerender)
-            render();
+            render3d();
     }
 }
 

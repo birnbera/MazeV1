@@ -31,7 +31,8 @@ class Maze : public Event {
     void on_quit();
     void on_key_down(SDL_Keycode sym);
     void update_data();
-    void render();
+    void render3d();
+    void render2d();
 public:
     Maze(std::string file_name);
     ~Maze();
