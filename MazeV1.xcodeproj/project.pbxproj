@@ -11,6 +11,7 @@
 		60B0CBDD2028FCCA007F262A /* maze.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBDB2028FCCA007F262A /* maze.cpp */; };
 		60B0CBE02029036A007F262A /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBDE2029036A007F262A /* map.cpp */; };
 		60B0CBE420291E63007F262A /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBE220291E63007F262A /* player.cpp */; };
+		60B0CBE7202BAC99007F262A /* event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBE5202BAC99007F262A /* event.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,8 @@
 		60B0CBE1202911AC007F262A /* test_map */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test_map; sourceTree = SOURCE_ROOT; };
 		60B0CBE220291E63007F262A /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = player.cpp; sourceTree = "<group>"; };
 		60B0CBE320291E63007F262A /* player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = player.hpp; sourceTree = "<group>"; };
+		60B0CBE5202BAC99007F262A /* event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event.cpp; sourceTree = "<group>"; };
+		60B0CBE6202BAC99007F262A /* event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = event.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +76,8 @@
 				60B0CBDC2028FCCA007F262A /* maze.hpp */,
 				60B0CBDE2029036A007F262A /* map.cpp */,
 				60B0CBE220291E63007F262A /* player.cpp */,
+				60B0CBE5202BAC99007F262A /* event.cpp */,
+				60B0CBE6202BAC99007F262A /* event.hpp */,
 				60B0CBE320291E63007F262A /* player.hpp */,
 				60B0CBDF2029036A007F262A /* map.hpp */,
 				60B0CBE1202911AC007F262A /* test_map */,
@@ -145,6 +150,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60B0CBE7202BAC99007F262A /* event.cpp in Sources */,
 				60B0CBE02029036A007F262A /* map.cpp in Sources */,
 				60B0CBDD2028FCCA007F262A /* maze.cpp in Sources */,
 				60B0CBE420291E63007F262A /* player.cpp in Sources */,

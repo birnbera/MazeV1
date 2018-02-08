@@ -46,40 +46,48 @@ void Maze::initialize() {
 void Maze::get_events() {
     SDL_Event e;
     rerender = false;
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            done = true;
+    while (SDL_PollEvent(&e))
+        get_event(e);
+}
+
+void Maze::get_event(const SDL_Event &e) {
+    Event::get_event(e);
+}
+
+void Maze::on_quit() {
+    done = true;
+}
+
+void Maze::on_key_down(SDL_Keycode sym) {
+    rerender = true;
+    switch (sym) {
+        case SDLK_q:
+            on_quit();
+            rerender = false;
             break;
-        }
-        rerender = true;
-        switch (e.key.keysym.sym) {
-            case SDLK_q:
-                done = true;
-                break;
-            case SDLK_UP:
-                player->move_along(1);
-                break;
-            case SDLK_DOWN:
-                player->move_along(-1);
-                break;
-            case SDLK_LEFT:
-                player->update_angle(1);
-                break;
-            case SDLK_RIGHT:
-                player->update_angle(-1);
-                break;
-            case SDLK_a:
-                player->move_strafe(1);
-                break;
-            case SDLK_d:
-                player->move_strafe(-1);
-                break;
-            default:
-                rerender = false;
-                break;
-        }
+        case SDLK_UP:
+            player->move_along(1, map->layout, map->block_size);
+            break;
+        case SDLK_DOWN:
+            player->move_along(-1, map->layout, map->block_size);
+            break;
+        case SDLK_LEFT:
+            player->update_angle(1);
+            break;
+        case SDLK_RIGHT:
+            player->update_angle(-1);
+            break;
+        case SDLK_a:
+            player->move_strafe(1, map->layout, map->block_size);
+            break;
+        case SDLK_d:
+            player->move_strafe(-1, map->layout, map->block_size);
+            break;
+        default:
+            break;
     }
 }
+
 
 void Maze::render() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
@@ -99,7 +107,7 @@ void Maze::render() {
             }
         }
     }
-    SDL_RenderSetScale(renderer, vp_scale/10, vp_scale/10);
+    SDL_RenderSetScale(renderer, vp_scale / 10, vp_scale / 10);
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
     SDL_RenderDrawPoint(renderer, int(player->x * 10 / map->block_size), int(player->y * 10 / map->block_size));
     SDL_RenderPresent(renderer);

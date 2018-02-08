@@ -11,10 +11,12 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+
+#include "event.hpp"
 #include "map.hpp"
 #include "player.hpp"
 
-class Maze {
+class Maze : public Event {
     std::auto_ptr<Map> map;
     std::auto_ptr<Player> player;
     SDL_Window *window = NULL;
@@ -25,6 +27,9 @@ class Maze {
     float vp_scale;
     void initialize();
     void get_events();
+    void get_event(const SDL_Event &e);
+    void on_quit();
+    void on_key_down(SDL_Keycode sym);
     void update_data();
     void render();
 public:
