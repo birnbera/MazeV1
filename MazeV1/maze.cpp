@@ -8,13 +8,20 @@
 
 #include "maze.hpp"
 
-Maze::Maze(std::string file_name): map (new Map(file_name)), player (new Player(map->initial_position.x, map->initial_position.y, map->block_size)) {}
+Maze::Maze(std::string file_name): map (new Map(file_name)) {
+    player = new Player(map->initial_position.x, map->initial_position.y, map->block_size);
+}
 
 Maze::~Maze() {
     if (window)
         SDL_DestroyWindow(window);
     if (renderer)
         SDL_DestroyRenderer(renderer);
+    if (map)
+        delete map;
+    if (player)
+        delete player;
+    
 }
 
 void Maze::initialize() {
@@ -28,19 +35,12 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    this->renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    vp_scale = (float(w)/map->columns <= float(h)/map->rows) ? float(w)/map->columns : float(h)/map->rows;
-    viewport.h = vp_scale * map->rows;
-    viewport.w = vp_scale * map->columns;
-    viewport.x = (w - viewport.w) / 2;
-    viewport.y = (h - viewport.h) / 2;
+    raycaster = new RayCaster(renderer, *player, *map);
 }
 
 void Maze::get_events() {
@@ -60,6 +60,9 @@ void Maze::on_quit() {
 
 void Maze::on_key_down(SDL_Keycode sym) {
     rerender = true;
+    SDL_Rect vp;
+    SDL_RenderGetViewport(renderer, &vp);
+    double dtheta = player->fov / vp.w;
     switch (sym) {
         case SDLK_q:
             on_quit();
@@ -72,10 +75,10 @@ void Maze::on_key_down(SDL_Keycode sym) {
             player->move_along(-1, map->layout, map->block_size);
             break;
         case SDLK_LEFT:
-            player->update_angle(1);
+            player->update_angle(1, dtheta);
             break;
         case SDLK_RIGHT:
-            player->update_angle(-1);
+            player->update_angle(-1, dtheta);
             break;
         case SDLK_a:
             player->move_strafe(1, map->layout, map->block_size);
@@ -88,58 +91,19 @@ void Maze::on_key_down(SDL_Keycode sym) {
     }
 }
 
-void Maze::render3d() {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    SDL_RenderClear(renderer);
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    SDL_Rect bottom_half = {0, h/2, w, h/2};
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_RenderFillRect(renderer, &bottom_half);
-    
-    SDL_RenderPresent(renderer);
-//     = get_inter_h(&dh);
-//    dv = get_inter_v();
-//    if (dh < dv)
-}
-
-void Maze::render2d() {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0x4B, 0x4B, 0x4B, 0x00);
-    SDL_RenderSetViewport(renderer, NULL);
-    SDL_RenderSetScale(renderer, 1, 1);
-    SDL_RenderFillRect(renderer, &viewport);
-    SDL_RenderSetViewport(renderer, &viewport);
-    SDL_RenderSetScale(renderer, vp_scale, vp_scale);
-    SDL_SetRenderDrawColor(renderer, 0x8F, 0x8F, 0x8F, 0x00);
-    for (uint32_t i = 0; i < map->rows; i++) {
-        for (uint32_t j = 0; j < map->columns; j++) {
-            if (map->layout[i][j] == 0) {
-                SDL_Rect block = {int(j), int(i), 1, 1};
-                SDL_RenderFillRect(renderer, &block);
-            }
-        }
-    }
-    SDL_RenderSetScale(renderer, vp_scale / 10, vp_scale / 10);
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawPoint(renderer, int(player->x * 10 / map->block_size), int(player->y * 10 / map->block_size));
-    SDL_RenderPresent(renderer);
-}
-
 void Maze::update_data() {
     
 }
 
 void Maze::run() {
     initialize();
-    render3d();
+    raycaster->render3d();
     done = false;
     while (!done) {
         get_events();
         update_data();
         if (rerender)
-            render3d();
+            raycaster->render3d();
     }
 }
 
