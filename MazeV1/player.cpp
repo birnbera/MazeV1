@@ -14,6 +14,7 @@ Player::Player(uint32_t x, uint32_t y, uint32_t block_size): x((block_size * x) 
 }
 
 void Player::move_along(int8_t direction, const std::vector<std::vector<uint8_t>> &layout, const uint32_t block_size) {
+    std::cout << "move_along" << std::endl;
     double dx = cos(angle) * direction;
     double ux = 0;
     double dy = -sin(angle) * direction;
@@ -40,6 +41,7 @@ void Player::move_strafe(int8_t direction, const std::vector<std::vector<uint8_t
 }
 
 void Player::update_angle(int8_t direction, double dtheta) {
+    std::cout << "update_angle" << std::endl;
     angle += dtheta * direction;
     angle = fmod(angle, 2 * M_PI);
 }

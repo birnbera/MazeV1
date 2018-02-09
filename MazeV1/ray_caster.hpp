@@ -16,14 +16,14 @@
 
 class RayCaster {
 public:
-    RayCaster(SDL_Renderer *renderer, Player &player, Map &map);
+    RayCaster(SDL_Renderer *renderer, Player *player, Map *map);
     ~RayCaster();
     void render2d();
     void render3d();
 private:
     SDL_Renderer *renderer;
-    Player player;
-    Map map;
+    Player *player;
+    Map *map;
     double find_intersect_v(double px, double py, double angle, Map &map, SDL_Point &wall_coord);
     double find_intersect_h(double px, double py, double angle, Map &map, SDL_Point &wall_coord);
     void draw_wall(double dist, int column, int vh);

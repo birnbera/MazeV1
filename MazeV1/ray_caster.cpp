@@ -22,7 +22,7 @@ double get_dist(double angle, double px, double py, double Ax, double Ay) {
     }
 }
 
-RayCaster::RayCaster(SDL_Renderer *renderer, Player &player, Map &map): renderer(renderer), player(player), map(map) {}
+RayCaster::RayCaster(SDL_Renderer *renderer, Player *player, Map *map): renderer(renderer), player(player), map(map) {}
 
 void RayCaster::render3d() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
@@ -34,24 +34,25 @@ void RayCaster::render3d() {
     SDL_RenderFillRect(renderer, &bottom_half);
     SDL_Point vblock, hblock;
     double vDist, hDist, dtheta;
-    dtheta = player.fov / vp.w;
-    for (double a = -player.fov / 2; a < player.fov / 2; a += dtheta) {
-        vDist = find_intersect_v(player.x, player.y, player.angle + a, map, vblock);
-        hDist = find_intersect_h(player.x, player.y, player.angle + a, map, hblock);
+    dtheta = player->fov / vp.w;
+    std::cout << player->x << ' ' << player->y << ' ' << player->angle << std::endl;
+    for (double a = -player->fov / 2; a < player->fov / 2; a += dtheta) {
+        vDist = find_intersect_v(player->x, player->y, player->angle + a, *map, vblock);
+        hDist = find_intersect_h(player->x, player->y, player->angle + a, *map, hblock);
         if (hDist < vDist) {
             SDL_SetRenderDrawColor(renderer, 0x60, 0x60, 0x60, 0x00);
-            draw_wall(hDist * cos(a), (a + player.fov / 2) * vp.w, vp.h);
+            draw_wall(hDist * cos(a), (a + player->fov / 2) * vp.w, vp.h);
         }
         else if (hDist > vDist) {
             SDL_SetRenderDrawColor(renderer, 0x70, 0x70, 0x70, 0x00);
-            draw_wall(vDist * cos(a), (a + player.fov / 2) * vp.w, vp.h);
+            draw_wall(vDist * cos(a), (a + player->fov / 2) * vp.w, vp.h);
         }
     }
     SDL_RenderPresent(renderer);
 }
 
 void RayCaster::draw_wall(double dist, int column, int vh) {
-    int lh = (vh * map.block_size) / (4* dist * tan(player.fov / 2));
+    int lh = (vh * map->block_size) / (4 * dist * tan(player->fov / 2));
     SDL_RenderDrawLine(renderer, column, (vh - lh) / 2, column, (vh + lh) / 2);
 }
 
@@ -138,18 +139,18 @@ void RayCaster::render2d() {
     
     SDL_Rect win;
     SDL_RenderGetViewport(renderer, &win);
-    double vp_scale = (float(win.w)/map.columns <= float(win.h)/map.rows) ? float(win.w)/map.columns : float(win.h)/map.rows;
-    vp.h = vp_scale * map.rows;
-    vp.w = vp_scale * map.columns;
+    double vp_scale = (float(win.w)/map->columns <= float(win.h)/map->rows) ? float(win.w)/map->columns : float(win.h)/map->rows;
+    vp.h = vp_scale * map->rows;
+    vp.w = vp_scale * map->columns;
     vp.x = (win.w - vp.w) / 2;
     vp.y = (win.h - vp.h) / 2;
     SDL_RenderFillRect(renderer, &vp);
     SDL_RenderSetViewport(renderer, &vp);
     SDL_RenderSetScale(renderer, vp_scale, vp_scale);
     SDL_SetRenderDrawColor(renderer, 0x8F, 0x8F, 0x8F, 0x00);
-    for (uint32_t i = 0; i < map.rows; i++) {
-        for (uint32_t j = 0; j < map.columns; j++) {
-            if (map.layout[i][j] == 0) {
+    for (uint32_t i = 0; i < map->rows; i++) {
+        for (uint32_t j = 0; j < map->columns; j++) {
+            if (map->layout[i][j] == 0) {
                 SDL_Rect block = {int(j), int(i), 1, 1};
                 SDL_RenderFillRect(renderer, &block);
             }
@@ -157,6 +158,6 @@ void RayCaster::render2d() {
     }
     SDL_RenderSetScale(renderer, vp_scale / 10, vp_scale / 10);
     SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
-    SDL_RenderDrawPoint(renderer, int(player.x * 10 / map.block_size), int(player.y * 10 / map.block_size));
+    SDL_RenderDrawPoint(renderer, int(player->x * 10 / map->block_size), int(player->y * 10 / map->block_size));
     SDL_RenderPresent(renderer);
 }

@@ -40,7 +40,7 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create renderer: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    raycaster = new RayCaster(renderer, *player, *map);
+    raycaster = new RayCaster(renderer, player, map);
 }
 
 void Maze::get_events() {
