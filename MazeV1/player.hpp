@@ -1,11 +1,3 @@
-//
-//  player.hpp
-//  MazeV1
-//
-//  Created by Andrew Birnberg on 2/5/18.
-//  Copyright © 2018 Andrew. All rights reserved.
-//
-
 #ifndef player_hpp
 #define player_hpp
 
@@ -26,5 +18,7 @@ public:
     void move_strafe(int8_t direction, const std::vector<std::vector<uint8_t>> &layout, const uint32_t block_size);
     void update_angle(int8_t direction);
 };
+
+double check_angle(double angle);
 
 #endif /* player_hpp */

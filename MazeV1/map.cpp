@@ -1,11 +1,3 @@
-//
-//  map.cpp
-//  MazeV1
-//
-//  Created by Andrew Birnberg on 2/5/18.
-//  Copyright © 2018 Andrew. All rights reserved.
-//
-
 #include "map.hpp"
 
 Map::Map(std::string filename) {

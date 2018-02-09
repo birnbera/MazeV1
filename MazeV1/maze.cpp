@@ -1,11 +1,3 @@
-//
-//  main.cpp
-//  MazeV1
-//
-//  Created by Andrew Birnberg on 2/5/18.
-//  Copyright © 2018 Andrew. All rights reserved.
-//
-
 #include "maze.hpp"
 
 Maze::Maze(std::string file_name): map (new Map(file_name)), player (new Player(map->initial_position.x, map->initial_position.y, map->block_size)) {}
@@ -23,7 +15,7 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not initialize video system: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 320, 0);
+    window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 640, 0);
     if (!window) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
         throw std::bad_alloc();
@@ -34,13 +26,13 @@ void Maze::initialize() {
         throw std::bad_alloc();
     }
     
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    vp_scale = (float(w)/map->columns <= float(h)/map->rows) ? float(w)/map->columns : float(h)/map->rows;
-    viewport.h = vp_scale * map->rows;
-    viewport.w = vp_scale * map->columns;
-    viewport.x = (w - viewport.w) / 2;
-    viewport.y = (h - viewport.h) / 2;
+//    int w, h;
+//    SDL_GetWindowSize(window, &w, &h);
+//    vp_scale = (float(w)/map->columns <= float(h)/map->rows) ? float(w)/map->columns : float(h)/map->rows;
+//    viewport.h = vp_scale * map->rows;
+//    viewport.w = vp_scale * map->columns;
+//    viewport.x = (w - viewport.w) / 2;
+//    viewport.y = (h - viewport.h) / 2;
 }
 
 void Maze::get_events() {
@@ -88,20 +80,6 @@ void Maze::on_key_down(SDL_Keycode sym) {
     }
 }
 
-void Maze::render3d() {
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
-    SDL_RenderClear(renderer);
-    int w, h;
-    SDL_GetWindowSize(window, &w, &h);
-    SDL_Rect bottom_half = {0, h/2, w, h/2};
-    SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0x00, 0x00);
-    SDL_RenderFillRect(renderer, &bottom_half);
-    
-    SDL_RenderPresent(renderer);
-//     = get_inter_h(&dh);
-//    dv = get_inter_v();
-//    if (dh < dv)
-}
 
 void Maze::render2d() {
     SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);

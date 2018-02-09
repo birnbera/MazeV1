@@ -1,11 +1,3 @@
-//
-//  event.hpp
-//  MazeV1
-//
-//  Created by Andrew Birnberg on 2/7/18.
-//  Copyright © 2018 Andrew. All rights reserved.
-//
-
 #ifndef event_hpp
 #define event_hpp
 

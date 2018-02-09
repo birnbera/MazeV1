@@ -1,11 +1,3 @@
-//
-//  maze.hpp
-//  MazeV1
-//
-//  Created by Andrew Birnberg on 2/5/18.
-//  Copyright © 2018 Andrew. All rights reserved.
-//
-
 #ifndef maze_hpp
 #define maze_hpp
 
@@ -33,6 +25,10 @@ class Maze : public Event {
     void update_data();
     void render3d();
     void render2d();
+    double get_vertical_intersection(double angle);
+    double get_horizontal_intersection(double angle);
+    double get_wall_height(double distance);
+    void render_wall(double height, int window_height, int position, int wall_side);
 public:
     Maze(std::string file_name);
     ~Maze();
