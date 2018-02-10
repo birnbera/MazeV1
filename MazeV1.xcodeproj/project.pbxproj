@@ -12,7 +12,8 @@
 		60B0CBE02029036A007F262A /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBDE2029036A007F262A /* map.cpp */; };
 		60B0CBE420291E63007F262A /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBE220291E63007F262A /* player.cpp */; };
 		60B0CBE7202BAC99007F262A /* event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60B0CBE5202BAC99007F262A /* event.cpp */; };
-		60F9F22C202C0CBD00D8888D /* ray_caster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60F9F22A202C0CBD00D8888D /* ray_caster.cpp */; };
+		FA1B2CA6202CF02E006ABE40 /* angles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA1B2CA5202CF02E006ABE40 /* angles.cpp */; };
+		FA1B2CA8202D3329006ABE40 /* render3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA1B2CA7202D3329006ABE40 /* render3d.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,8 +40,8 @@
 		60B0CBE320291E63007F262A /* player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = player.hpp; sourceTree = "<group>"; };
 		60B0CBE5202BAC99007F262A /* event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = event.cpp; sourceTree = "<group>"; };
 		60B0CBE6202BAC99007F262A /* event.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = event.hpp; sourceTree = "<group>"; };
-		60F9F22A202C0CBD00D8888D /* ray_caster.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ray_caster.cpp; sourceTree = "<group>"; };
-		60F9F22B202C0CBD00D8888D /* ray_caster.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ray_caster.hpp; sourceTree = "<group>"; };
+		FA1B2CA5202CF02E006ABE40 /* angles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = angles.cpp; sourceTree = "<group>"; };
+		FA1B2CA7202D3329006ABE40 /* render3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = render3d.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,9 +77,9 @@
 			isa = PBXGroup;
 			children = (
 				60B0CBDB2028FCCA007F262A /* maze.cpp */,
+				FA1B2CA7202D3329006ABE40 /* render3d.cpp */,
+				FA1B2CA5202CF02E006ABE40 /* angles.cpp */,
 				60B0CBDC2028FCCA007F262A /* maze.hpp */,
-				60F9F22A202C0CBD00D8888D /* ray_caster.cpp */,
-				60F9F22B202C0CBD00D8888D /* ray_caster.hpp */,
 				60B0CBDE2029036A007F262A /* map.cpp */,
 				60B0CBE220291E63007F262A /* player.cpp */,
 				60B0CBE5202BAC99007F262A /* event.cpp */,
@@ -125,7 +126,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0800;
-				ORGANIZATIONNAME = Andrew;
+				ORGANIZATIONNAME = "Andrew and Alexa";
 				TargetAttributes = {
 					60B0CBCD2028FBD3007F262A = {
 						CreatedOnToolsVersion = 8.0;
@@ -157,9 +158,10 @@
 			files = (
 				60B0CBE7202BAC99007F262A /* event.cpp in Sources */,
 				60B0CBE02029036A007F262A /* map.cpp in Sources */,
+				FA1B2CA6202CF02E006ABE40 /* angles.cpp in Sources */,
 				60B0CBDD2028FCCA007F262A /* maze.cpp in Sources */,
+				FA1B2CA8202D3329006ABE40 /* render3d.cpp in Sources */,
 				60B0CBE420291E63007F262A /* player.cpp in Sources */,
-				60F9F22C202C0CBD00D8888D /* ray_caster.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
