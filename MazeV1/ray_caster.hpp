@@ -26,7 +26,7 @@ private:
     Map *map;
     double find_intersect_v(double px, double py, double angle, Map &map, SDL_Point &wall_coord);
     double find_intersect_h(double px, double py, double angle, Map &map, SDL_Point &wall_coord);
-    void draw_wall(double dist, int column, int vh);
+    void draw_wall(double dist, int column, int vw, int vh);
     
 };
 

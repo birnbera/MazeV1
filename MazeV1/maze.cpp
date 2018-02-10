@@ -30,7 +30,7 @@ void Maze::initialize() {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not initialize video system: %s", SDL_GetError());
         throw std::bad_alloc();
     }
-    window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 320, 0);
+    window = SDL_CreateWindow("Maze v1", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 540, 0);
     if (!window) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Could not create window: %s", SDL_GetError());
         throw std::bad_alloc();
@@ -75,10 +75,10 @@ void Maze::on_key_down(SDL_Keycode sym) {
             player->move_along(-1, map->layout, map->block_size);
             break;
         case SDLK_LEFT:
-            player->update_angle(1, dtheta);
+            player->update_angle(1, 5 * dtheta);
             break;
         case SDLK_RIGHT:
-            player->update_angle(-1, dtheta);
+            player->update_angle(-1, 5 * dtheta);
             break;
         case SDLK_a:
             player->move_strafe(1, map->layout, map->block_size);
@@ -98,12 +98,15 @@ void Maze::update_data() {
 void Maze::run() {
     initialize();
     raycaster->render3d();
+    //raycaster->render2d();
     done = false;
     while (!done) {
         get_events();
         update_data();
-        if (rerender)
+        if (rerender) {
             raycaster->render3d();
+            //raycaster->render2d();
+        }
     }
 }
 
